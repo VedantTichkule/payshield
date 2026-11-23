@@ -60,7 +60,7 @@ account_id bigint unsigned not null,
 amount decimal(18,4) not null,
 direction enum('debit', 'credit') not null,
 created_at timestamp default current_timestamp,
-constraint fk_entries_transaction Foreign key(transaction_id) references transaction(id) on delete restrict,
+constraint fk_entries_transactions Foreign key(transaction_id) references transactions(id) on delete restrict,
 constraint fk_entries_account foreign key(account_id) references accounts(id) on delete restrict,
 index idx_entries_tx(transaction_id),
 index idx_entries_acc(account_id)
