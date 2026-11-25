@@ -5,7 +5,7 @@ PayShield is a backend financial transaction engine built with **Node.js, Expres
 
 ---
 
-## 📌 Current Project Status: Day 2 Milestone
+## 📌 Current Project Status: Day 3 Milestone
 
 This repository is built and maintained daily. Here is what has been architected and implemented so far:
 
@@ -25,6 +25,14 @@ This repository is built and maintained daily. Here is what has been architected
 - **Secret & Dependency Isolation:** Configured `.gitignore` rules to protect environment secrets (`.env`) and prevent committing vendor libraries (`node_modules/`).
 - **Remote Linking & Upstream Tracking:** Connected local repository to GitHub (`origin`) with permanent branch tracking (`git push -u origin main`).
 - **Schema Validation:** Verified and corrected foreign key integrity in migration scripts.
+
+### ✅ Day 3: Data Access Layer (Repository Pattern) & System Seeding
+- **Repository Pattern Architecture:** Decoupled raw SQL queries from business logic by introducing dedicated repositories:
+  - `user.repository.js` — User creation, ID lookup, email lookup, and paginated listing.
+  - `account.repository.js` — Chart of accounts queries for platform reserves and customer wallets.
+- **Transaction-Ready Data Layer:** Configured repositories with optional `connection = pool` parameter passing to seamlessly support atomic multi-statement MySQL transactions (`BEGIN ... COMMIT`).
+- **Idempotent Database Seeding:** Created `seed.js` with `"seed": "node src/config/seed.js"` to bootstrap foundational platform system accounts (`PLATFORM_CASH_ASSET`, `PLATFORM_FEE_REVENUE`) without duplicating on repeated runs.
+- **Data Layer Verification:** Validated end-to-end CRUD operations, parameter binding, and connection pool behavior with live MySQL tests.
 
 ---
 
@@ -54,16 +62,19 @@ cp .env.example .env
 # 4. Run database migrations (creates all 5 tables in MySQL)
 npm run migrate
 
-# 5. Start development server
+# 5. Seed platform system accounts
+npm run seed
+
+# 6. Start development server
 npm run dev
 ```
 
 ---
 
-## 🔜 Next Milestone: Day 3
-- Implementing the **Repository Pattern** (`user.repository.js`, `account.repository.js`).
-- Database seeding (`seed.js`) to insert platform system accounts (`PLATFORM_CASH_ASSET`, `PLATFORM_FEE_REVENUE`).
-- Verifying first live database queries with the connection pool.
+## 🔜 Next Milestone: Day 4
+- **Authentication Service:** Password hashing with `bcrypt` (salt rounds, rainbow table protection).
+- **Session & Identity Tokens:** Generating JWT access and refresh tokens.
+- **Auth Routes & Controllers:** Building `/api/auth/register` and `/api/auth/login` endpoints.
 
 ---
 
